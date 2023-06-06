@@ -16,11 +16,17 @@ return new class extends Migration {
             $table->string('slug');
             $table->text('content');
             $table->string('image')->nullable();
-            $table->integer('user_id');
-            $table->integer('category_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('category_id');
             $table->timestamps();
 
             $table->unique('slug');
+            $table->index('category_id', 'post_category_idx');
+            $table->foreign('category_id', 'post_category_fk')->on('categories')->references('id');
+            $table->index('user_id', 'post_user_idx');
+            $table->foreign('user_id', 'post_user_fk')->on('users')->references('id');
+
+
         });
     }
 
