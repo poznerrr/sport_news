@@ -19,15 +19,19 @@ class ContentWriter
 
     public function writeAdminBasketballNews(): void
     {
-        $userId = User::where('name', 'Administrator')->first()->id;
-        $categoryId = Category::where('name', 'Basketball')->first()->id;
-        $post = Post::create([
-            'title' => $this->parsedContent->getTitle(),
-            'content' => $this->parsedContent->getText(),
-            'user_id' => $userId,
-            'category_id' => $categoryId,
-            'image' => null
-        ]);
+        try {
+            $userId = User::where('name', 'Administrator')->first()->id;
+            $categoryId = Category::where('name', 'Basketball')->first()->id;
+            $post = Post::create([
+                'title' => $this->parsedContent->getTitle(),
+                'content' => $this->parsedContent->getText(),
+                'user_id' => $userId,
+                'category_id' => $categoryId,
+                'image' => null
+            ]);
+        } catch (\Throwable $e) {
+            //TODO: обработать
+        }
     }
 
 }
