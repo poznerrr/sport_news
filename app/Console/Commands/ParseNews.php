@@ -2,9 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\User;
 use App\Services\ContentGetter;
 use App\Services\ContentParser;
 use App\Services\ContentWriter;
