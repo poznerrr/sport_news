@@ -13,6 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('index');
+Route::get('/news/{slug}', [\App\Http\Controllers\PostController::class, 'show'])->name('news-post');
