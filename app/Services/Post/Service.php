@@ -7,9 +7,9 @@ use App\Models\Post;
 
 class Service
 {
-    public function store(array $data): void
+    public function store(array $data): Post
     {
-        $post = Post::create($data);
+        return Post::create($data);
     }
 
     public function update(Post $post, array $data): void

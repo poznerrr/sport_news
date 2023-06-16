@@ -6,6 +6,7 @@ use App\Http\Requests\Post\StoreRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use App\Services\FillerSimilars;
 use App\Services\Post\Service;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,19 +16,22 @@ class PostController extends Controller
 {
     public $service;
 
-    public function __construct(Service $service) {
+    public function __construct(Service $service)
+    {
         $this->service = $service;
     }
+
     public function index()
     {
-        $posts = Post::orderBy('id','desc')->paginate(15);
+        $posts = Post::orderBy('id', 'desc')->paginate(15);
         return view('post.index', ['posts' => $posts]);
     }
 
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->first();
-        return view('post.show', ['post' => $post]);
+        $similarPosts = $post->similarPosts;
+        return view('post.show', compact('post', 'similarPosts'));
     }
 
     public function create()
@@ -37,11 +41,13 @@ class PostController extends Controller
         return view('post.create', compact('categories', 'user'));
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request, FillerSimilars $fillerSimilars)
     {
         $data = $request->validated();
 
-        $this->service->store($data);
+        $post = $this->service->store($data);
+
+        $fillerSimilars->fill($post);
 
         return redirect()->route('index');
     }
