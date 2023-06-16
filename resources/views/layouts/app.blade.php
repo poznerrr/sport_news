@@ -15,6 +15,20 @@
 
 </head>
 <body>
+<header>
+    <div class="container">
+        <div class="row p-2">
+            <div class="col-3">
+                <a class="d-block" href="{{route('index')}}">Main Page</a>
+            </div>
+          <div class="col-3">
+              <a class="d-block" href="{{route('post.create')}}">Add news</a>
+          </div>
+
+        </div>
+    </div>
+    <hr>
+</header>
 @yield('main')
 </body>
 </html>
