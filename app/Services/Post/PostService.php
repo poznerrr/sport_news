@@ -5,7 +5,7 @@ namespace App\Services\Post;
 
 use App\Models\Post;
 
-class Service
+class PostService
 {
     public function store(array $data): Post
     {

@@ -7,16 +7,18 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use App\Services\FillerSimilars;
-use App\Services\Post\Service;
+use App\Services\Image\ImageService;
+use App\Services\Post\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
     public $service;
 
-    public function __construct(Service $service)
+    public function __construct(PostService $service)
     {
         $this->service = $service;
     }
@@ -41,13 +43,23 @@ class PostController extends Controller
         return view('post.create', compact('categories', 'user'));
     }
 
-    public function store(StoreRequest $request, FillerSimilars $fillerSimilars)
+    public function store(StoreRequest $request, FillerSimilars $fillerSimilars, ImageService $imageService)
     {
         $data = $request->validated();
+
+        $image = $data['image'] ?? null;
+
+        if ($image) {
+            unset($data['image']);
+        }
 
         $post = $this->service->store($data);
 
         $fillerSimilars->fill($post);
+
+        if ($image) {
+            $imageService->store($image, $post);
+        }
 
         return redirect()->route('index');
     }

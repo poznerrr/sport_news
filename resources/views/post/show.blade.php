@@ -8,6 +8,15 @@
                     <div>
                         {!! $post->content !!}
                     </div>
+                    @if (isset($post->images))
+                        @foreach ($post->images as $image)
+                            <div class="my-2 d-flex justify-content-center">
+                                <div>
+                                    <img src="{{asset('storage/'.$image->medium_image)}}">
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                     <ul class='list group list-group-flush h6'>
                         <li class='list-group-item'>
                             <b>Категория: </b><i>{{$post->category->name}}</i>
@@ -18,6 +27,7 @@
                         <li class='list-group-item'>
                             <b>Автор: </b><i>{{$post->user->name}}</i>
                         </li>
+
                     </ul>
                 </div>
             </div>
@@ -28,9 +38,22 @@
                 @else()
                     @foreach($similarPosts as $similarPost)
                         <div class="my-2">
-                            <a class="link-underline-info" href="{{route('post.show',$similarPost->slug)}}">{{$similarPost->title}}</a>
-                        </div>
+                            <div class="border border-secondary rounded p-1">
+                                <a class="link-underline-info"
+                                   href="{{route('post.show',$similarPost->slug)}}">
+                                    {{$similarPost->title}}
 
+                                    @if ($similarPost->images->first())
+                                        <div class="my-2 d-flex justify-content-start">
+                                            <div>
+                                                <img
+                                                    src="{{asset('storage/'.$similarPost->images->first()->small_image)}}">
+                                            </div>
+                                        </div>
+                                    @endif
+                                </a>
+                            </div>
+                        </div>
                     @endforeach
                 @endif
             </div>

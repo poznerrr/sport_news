@@ -27,6 +27,7 @@ class StoreRequest extends FormRequest
             'content' => 'string',
             'category_id' => 'int',
             'user_id' => 'int',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg'
         ];
     }
 }
