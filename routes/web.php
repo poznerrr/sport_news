@@ -14,4 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('index');
-Route::get('/news/{slug}', [\App\Http\Controllers\PostController::class, 'show'])->name('news-post');
+Route::get('/posts/create', [\App\Http\Controllers\PostController::class, 'create'])->name('post.create');
+Route::get('/posts/{slug}', [\App\Http\Controllers\PostController::class, 'show'])->name('post.show');
+Route::post('/posts', [\App\Http\Controllers\PostController::class, 'store'])->name('post.store');
+Route::get('/rss', [\App\Http\Controllers\PostController::class, 'rss'])->name('rss');
