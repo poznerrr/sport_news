@@ -47,18 +47,21 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        $image = $data['image'] ?? null;
 
-        if ($image) {
-            unset($data['image']);
+        $images = $data['images'] ?? null;
+
+        if ($images) {
+            unset($data['images']);
         }
 
         $post = $this->service->store($data);
 
         $fillerSimilars->fill($post);
 
-        if ($image) {
-            $imageService->store($image, $post);
+        if ($images !== null) {
+            foreach ($images as $image) {
+                $imageService->store($image, $post);
+            }
         }
 
         return redirect()->route('index');
