@@ -1,5 +1,5 @@
 @extends('layouts.app')
-    @section('main')
+    @section('content')
     @foreach($posts as $post)
         <div class='card center-block p-3 my-2'>
             <div class='card-body'>

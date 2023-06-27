@@ -19,7 +19,8 @@ class UserSeeder extends Seeder
                 'password' => password_hash('12345678', PASSWORD_BCRYPT),
                 'email' => 'admin@sportnews.com',
                 'created_at' => time(),
-                'updated_at' => null
+                'updated_at' => null,
+                'deleted_at' => null,
             ]);
         }
     }
