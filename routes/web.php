@@ -19,10 +19,11 @@ Route::get('/posts/{slug}', [\App\Http\Controllers\PostController::class, 'show'
 Route::post('/posts', [\App\Http\Controllers\PostController::class, 'store'])->name('post.store');
 Route::get('/rss', [\App\Http\Controllers\PostController::class, 'rss'])->name('rss');
 
-Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'], function () {
+Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware'=>'auth'], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', 'IndexController')->name('admin.index');
     });
+
     Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
         Route::get('/', 'IndexController')->name('admin.category.index');
         Route::get('/create', 'CreateController')->name('admin.category.create');
@@ -31,6 +32,16 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'],
         Route::get('/{category}/edit', 'EditController')->name('admin.category.edit');
         Route::patch('/{category}', 'UpdateController')->name('admin.category.update');
         Route::delete('/{category}', 'DestroyController')->name('admin.category.destroy');
+    });
+
+    Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
+        Route::get('/', 'IndexController')->name('admin.post.index');
+        Route::get('/create', 'CreateController')->name('admin.post.create');
+        Route::post('/', 'StoreController')->name('admin.post.store');
+        Route::get('/{post}', 'ShowController')->name('admin.post.show');
+        Route::get('/{post}/edit', 'EditController')->name('admin.post.edit');
+        Route::patch('/{post}', 'UpdateController')->name('admin.post.update');
+        Route::delete('/{post}', 'DestroyController')->name('admin.post.destroy');
     });
 });
 
